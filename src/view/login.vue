@@ -2,9 +2,9 @@
 	<div class="wrap">
 		<div class="head">
 			<span class="title">方顿</span>
-			<div style="width: 300px;height: 100px;">
+			<!-- <div style="width: 300px;height: 100px;">
 				<verifyInput2 :digitCount="6"></verifyInput2>
-			</div>
+			</div> -->
 		</div>
 		<div class="main">
 			<div class="form">
@@ -90,19 +90,23 @@
 <script setup>
 import {
 	onMounted,
-	ref
+	ref,
+	onBeforeMount
 } from 'vue';
 import {
 	ElMessage
 } from 'element-plus';
 import {
 	login_service,
-	verify_service
+	verify_service,
+	refresh_token,
+	isInvaid
 } from '../api/login';
+import { get_user_profile } from '../api/userCenter';
 import { useRouter } from 'vue-router';
 import { useTokenStore } from '../store/token';
 import verifyInput2 from '../components/verifyInput2.vue'
-// import { nodeExplanation, nodeExplanation1 } from '../api/ai';
+
 
 const router = useRouter();
 const tokenStore = useTokenStore();
@@ -204,7 +208,9 @@ async function login() {
 		console.log(response.data);
 		if (response.status === 200) {
 			tokenStore.setToken(response.data.access);
+			tokenStore.setRefresh(response.data.refresh);
 			console.log(tokenStore.token)
+			console.log(tokenStore.refresh)
 			ElMessage({
 				message: '登录成功',
 				type: 'success',
@@ -260,19 +266,13 @@ async function toSuggest() {
 		duration: 2500,
 		offset: 45
 	})
-
-	// try {
-	// 	const response = await nodeExplanation('离散数学'); // 传入具体的查询参数
-	// 	const reader = response.body.getReader();
-	// 	const textDecoder = new TextDecoder();
-	// 	while (1) {
-	// 		const { done, value } = await reader.read();
-	// 		if (done) break;
-	// 		const str = textDecoder.decode(value);
-	// 		console.log(str);
-	// 	}
-	// } catch (error) {
-	// 	console.error('处理响应出现错误：', error);
-	// }
 }
+
+
+// onMounted(() => {
+// 	isInvaid(router);
+// })
+onBeforeMount(async () => {
+	await isInvaid(router);
+})
 </script>

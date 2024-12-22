@@ -117,6 +117,7 @@ import {
 import {
 	useRouter
 } from 'vue-router';
+import { isInvaid } from '../api/login'
 
 const mindMapStore = useMindMapStore();
 const router = useRouter()
@@ -292,7 +293,8 @@ function goToUserCenter() {
 	router.push('/userCenter')
 }
 
-onMounted(() => {
+onMounted(async () => {
+	await isInvaid(router)
 	initIndexPage()
 	console.log(mindMapList)
 })
