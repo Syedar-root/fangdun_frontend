@@ -166,19 +166,6 @@ function initMap() {
 				note.value.style.top = top + 10 + 'px';
 				note.value.style.zIndex = '1';
 				note.value.style.display = 'block';
-				// const noteRef = document.getElementById('note');
-				// const noteHammer = new Hammer(noteRef);
-				// noteHammer.on('pan', () => {
-				// 	ElMessage({
-				// 		message: '拖动中',
-				// 		type: 'info',
-				// 		duration: 1000
-				// 	});
-				// 	if (noteFocused.value === true) {
-				// 		note.value.style.left = left + e.velocityX * 10 + 'px';
-				// 		note.value.style.top = top + e.velocityY * 10 + 10 + 'px';
-				// 	}
-				// });
 			},
 			hide: () => {
 				// 在这里隐藏你的自定义弹窗
@@ -191,12 +178,13 @@ function initMap() {
 	//点击激活事件
 	mindMap.value.on('node_active', (node, activeNodeList) => {
 		activeNodes.value = activeNodeList;
+		if (isNodeActive(node)) {
+			showMenu()
+		}
 	})
 	//点击节点事件
 	mindMap.value.on('node_click', (node, e) => {
-		if (isNodeActive(node)) {
-			showMenu(node);
-		} else {
+		if (!isNodeActive(node)) {
 			hideMenu();
 		}
 	})
