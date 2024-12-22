@@ -56,8 +56,7 @@
 							<input type="radio" name="layout" @click="selectLayout(item.value)" />
 							<div class="themeOption">
 								<div class="themeGridFormItemContent">
-									<img :src="getImgUrl('../assets/grid/' + item.value + '.svg')" width="64"
-										height="64">
+									<img :src="item.pic" width="64" height="64">
 								</div>
 								<span>{{ item.name }}</span>
 							</div>
@@ -77,7 +76,14 @@
 import {
 	ref,
 } from 'vue';
-import '../assets/grid/logicalStructure.svg';
+import logicalStructure from '../assets/grid/logicalStructure.svg';
+import fishbone from '../assets/grid/fishbone.svg';
+import catalogOrganization from '../assets/grid/catalogOrganization.svg';
+import mindMap from '../assets/grid/mindMap.svg';
+import organizationStructure from '../assets/grid/organizationStructure.svg';
+import timeline from '../assets/grid/timeline.svg';
+import verticalTimeline from '../assets/grid/verticalTimeline.svg';
+
 
 const emit = defineEmits(['theme', 'layout'])
 
@@ -169,13 +175,13 @@ const themeList = ref([
 ]);
 
 const layoutList = ref([
-	{ name: '逻辑结构图', value: 'logicalStructure' },
-	{ name: '思维导图', value: 'mindMap' },
-	{ name: '组织结构图', value: 'organizationStructure' },
-	{ name: '目录组织图', value: 'catalogOrganization' },
-	{ name: '时间轴', value: 'timeline' },
-	{ name: '鱼骨图', value: 'fishbone' },
-	{ name: '竖向时间轴', value: 'verticalTimeline' },
+	{ name: '逻辑结构图', value: 'logicalStructure', pic: logicalStructure },
+	{ name: '思维导图', value: 'mindMap', pic: mindMap },
+	{ name: '组织结构图', value: 'organizationStructure', pic: organizationStructure },
+	{ name: '目录组织图', value: 'catalogOrganization', pic: catalogOrganization },
+	{ name: '时间轴', value: 'timeline', pic: timeline },
+	{ name: '鱼骨图', value: 'fishbone', pic: fishbone },
+	{ name: '竖向时间轴', value: 'verticalTimeline', pic: verticalTimeline },
 ]);
 
 // 动态获取本地图片地址

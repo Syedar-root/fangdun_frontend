@@ -10,13 +10,13 @@
 			<div class="form">
 				<input v-model="loginList.email" type="text" class="email" placeholder="输入邮箱" />
 				<input v-model="loginList.password" type="password" class="password" placeholder="输入密码"
-					v-if="loginModelShow" />
-				<div class="verify_mode" v-if="!loginModelShow">
+					v-show="loginModelShow" />
+				<div class="verify_mode" v-show="!loginModelShow">
 					<input v-model="loginList.password" type="password" class="password_verify" placeholder="输入验证码" />
 					<button class="verify" @click="sendVerify" :disabled='sendDisable'>{{ verifyText }}</button>
 				</div>
 
-				<a href="#" class="loginModel" @click="transLoginModel">
+				<a class="loginModel" @click="transLoginModel">
 					<svg class="loginModel_icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
 						xmlns="http://www.w3.org/2000/svg">
 						<g clip-path="url(#clip0_631_58)">
@@ -152,7 +152,7 @@ function sendVerify() {
 		}
 	}).catch((e) => {
 		ElMessage({
-			message: '验证码发送失败',
+			message: '验证码发送失败' + e.message,
 			type: 'error',
 			duration: 2500,
 			offset: 45
@@ -239,6 +239,13 @@ async function login() {
 				duration: 2500,
 				offset: 45
 			})
+		} else {
+			ElMessage({
+				message: '登录失败' + e,
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
 		}
 	})
 }
@@ -269,10 +276,10 @@ async function toSuggest() {
 }
 
 
-// onMounted(() => {
-// 	isInvaid(router);
-// })
-onBeforeMount(async () => {
-	await isInvaid(router);
+onMounted(() => {
+	//isInvaid(router);
 })
+// onBeforeMount(async () => {
+// 	await isInvaid(router);
+// })
 </script>

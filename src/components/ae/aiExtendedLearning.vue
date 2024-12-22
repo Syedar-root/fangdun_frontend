@@ -80,7 +80,7 @@ onMounted(() => {
             <div class="center">
                 <div class="title">AI节点解释</div>
             </div>
-            <div class="right" @click="questionsTypeItemMenuShow = true">
+            <div class="right" @click="questionsTypeItemMenuShow = !questionsTypeItemMenuShow">
                 <!-- <svg class="icon" width="35" height="35" viewBox="0 0 35 35" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_2_52)">

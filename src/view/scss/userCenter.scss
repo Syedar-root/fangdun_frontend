@@ -22,13 +22,24 @@ $infoContainerBackground:$Color5;
     height: 10%;
     display: flex;
     align-items: center;
-
-    @media screen and (max-width: 768px) {
+    .icon{
+        width: 5%;
+        display: flex;
+        align-items: center;
         justify-content: center;
     }
-    @media screen and (min-width: 768px) {
+    h2{
+        font-size: 3vmin;
+        margin-left: 5%;
+    }
+    @media screen and (max-width: 768px) {
+        justify-content: start;
+        .icon{
+            width: 10%;
+        }
         h2{
-            margin-left: 5%;
+            margin-left: 10%;
+            font-size: 5vmin;
         }
     }
 }

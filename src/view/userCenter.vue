@@ -1,6 +1,13 @@
 <template>
     <div class="wrap">
         <div class="header">
+            <div class="icon" @click="router.push('/')">
+                <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M21.875 8.75C21.875 8.75 13.125 15.1944 13.125 17.5C13.125 19.8056 21.875 26.25 21.875 26.25"
+                        stroke="#1A1A1A" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
             <h2>{{ time }}，{{ userForm.username }}</h2>
         </div>
 
@@ -123,6 +130,9 @@ import { get_user_profile, update_username, update_apikey } from '../api/userCen
 import { get_model_list } from '../api/ai';
 import cloneDeep from 'lodash/cloneDeep';
 import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const userForm = ref({
     username: undefined,

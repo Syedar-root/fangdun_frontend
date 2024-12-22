@@ -297,5 +297,14 @@ onMounted(async () => {
 	await isInvaid(router)
 	initIndexPage()
 	console.log(mindMapList)
+	document.addEventListener('deviceready', () => {
+		ElMessage({
+			message: 'Cordova is ready',
+			type: 'success',
+			duration: 2500,
+			offset: 45
+		})
+		window.StatusBar.backgroundColorByHexString('#5ebaf9');
+	}, false);
 })
 </script>

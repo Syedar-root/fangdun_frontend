@@ -73,7 +73,7 @@
 
 
 		<!-- 备注 -->
-		<div class="note" ref="note"></div>
+		<div class="note" id="note" ref="note"></div>
 
 	</div>
 </template>
@@ -159,8 +159,6 @@ function initMap() {
 		customNoteContentShow: {
 			show: (content, left, top) => {
 				// 在这里显示你的自定义弹窗
-				console.log('content:', content);
-				console.log(note)
 				note.value.innerHTML = content;
 				// content表示你插入的备注的内容，left和top时弹窗应该显示的位置，你需要将你的弹窗元素设置成fixed定位
 				note.value.style.position = 'fixed';
@@ -168,6 +166,19 @@ function initMap() {
 				note.value.style.top = top + 10 + 'px';
 				note.value.style.zIndex = '1';
 				note.value.style.display = 'block';
+				// const noteRef = document.getElementById('note');
+				// const noteHammer = new Hammer(noteRef);
+				// noteHammer.on('pan', () => {
+				// 	ElMessage({
+				// 		message: '拖动中',
+				// 		type: 'info',
+				// 		duration: 1000
+				// 	});
+				// 	if (noteFocused.value === true) {
+				// 		note.value.style.left = left + e.velocityX * 10 + 'px';
+				// 		note.value.style.top = top + e.velocityY * 10 + 10 + 'px';
+				// 	}
+				// });
 			},
 			hide: () => {
 				// 在这里隐藏你的自定义弹窗
@@ -513,11 +524,23 @@ function initHammer() {
 		mindMapView.translateXY(e.velocityX * 10, e.velocityY * 10);
 		menuPosition.value.x += e.velocityX * 10;
 		menuPosition.value.y += e.velocityY * 10;
+		try {
+			if (note.value.style.display !== 'none') {
+				note.value.style.left = note.value.style.left.replace('px', '') - e.velocityX * -10 + 'px';
+				note.value.style.top = note.value.style.top.replace('px', '') - e.velocityY * -10 + 'px';
+			}
+		} catch (e) {
+			ElMessage({
+				message: `${e}`,
+				type: 'error',
+				duration: 10000,
+				offset: 45
+			})
+		}
 	})
 }
 
 const mainLoading = ref(false);
-
 onMounted(() => {
 	document.addEventListener('deviceready', () => {
 		console.log('Cordova is ready');

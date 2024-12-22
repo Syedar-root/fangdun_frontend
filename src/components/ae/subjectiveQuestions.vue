@@ -1,42 +1,32 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { generateSubjective } from '../../api/ai';
+import { ElMessage } from 'element-plus';
 
 
-const questions = ref([
-    {
-        "question": "string1",
-        "answer": "string1"
-    },
-    {
-        "question": "string2",
-        "answer": "string2"
-    },
-    {
-        "question": "string3",
-        "answer": "string3"
-    },
-    {
-        "question": "string4",
-        "answer": "string4"
-    },
-    {
-        "question": "string5",
-        "answer": "string5"
-    },
-])
+const questions = ref([])
 
 const props = defineProps({
     text: {
         type: String,
     }
 })
+const loading = ref(false)
 
 onMounted(() => {
     console.log(props.text);
+    loading.value = true;
     generateSubjective(props.text).then(res => {
         console.log(res);
         questions.value = res.data.questions_and_answers;
+        loading.value = false;
+    }).catch(err => {
+        ElMessage({
+            message: '生成失败',
+            type: 'error',
+            duration: 3000
+        })
+        loading.value = false;
     })
 })
 
@@ -69,7 +59,7 @@ function showAnwser(item, itemIndex) {
 </script>
 
 <template>
-    <div class="subjectiveQuestionsContainer" ref="sc">
+    <div class="subjectiveQuestionsContainer" ref="sc" v-loading="loading">
         <div class="subjectiveQuestionsContent" v-for="(item, itemIndex) in questions"
             :name="item.question + itemIndex">
             <div class="header">

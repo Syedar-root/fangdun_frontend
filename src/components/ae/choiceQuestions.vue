@@ -2,6 +2,7 @@
 import { Close, Check } from '@element-plus/icons-vue';
 import { generateChoice, generateJudge } from '../../api/ai';
 import { ref, computed, onMounted, watch } from 'vue'
+import { ElMessage } from 'element-plus';
 const questions = ref(null)
 
 const props = defineProps({
@@ -21,14 +22,28 @@ function initQuestion() {
             console.log(res);
             questions.value = res.data.questions_and_answers;
             loading.value = false;
-        })
+        }).catch((err) => {
+            ElMessage({
+                message: '生成失败',
+                type: 'error',
+                duration: 3000
+            })
+            loading.value = false;
+        });
     }
     else {
         generateJudge(props.text).then((res) => {
             console.log(res);
             questions.value = res.data.questions_and_answers;
             loading.value = false;
-        })
+        }).catch((err) => {
+            ElMessage({
+                message: '生成失败',
+                type: 'error',
+                duration: 3000
+            })
+            loading.value = false;
+        });
     }
 }
 
@@ -88,7 +103,7 @@ function getSelectedValue(item, itemIndex) {
 
 <template>
     <div class="testContainer" ref="testC" id="testContainer" v-loading="loading"
-        element-loading-background="rgba(100,100,100,0.3)" element-loading-text="生成中，请稍等" element-loading-svg="000">
+        element-loading-background="rgba(100,100,100,0.3)" element-loading-text="生成中，请稍等">
         <div class="testContent" v-for="(item, itemIndex) in questions" :id="'question' + itemIndex">
             <div class="header">
                 <div class="questionContent">
