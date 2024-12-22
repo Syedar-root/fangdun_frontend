@@ -1,0 +1,58 @@
+@import "../../assets/style/variables.scss";
+
+.wrap-nodeEditMenu {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+$backgroundClr:$Color5;
+$titleTextClr:$Color6;
+$titleBorderClr:$Color6;
+$FormBorderClr:#dddad4;
+$textClr:$Color6;
+
+	.editMenuForm {
+		position: relative;
+		width: 98%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		padding: 1vmin 0 0 1vmin;
+		overflow-y: auto;
+		background-color: $backgroundClr;
+		border-radius: 12px;
+		border: 1px solid $FormBorderClr;
+		gap: 2vmin;
+		box-shadow:3px -5px 4px rgba(0, 0, 0, 0.25);
+		
+		span{
+			width: 70%;
+			text-align: start;
+			padding-left: 2vmin;
+			padding-bottom: 0.5vmin;
+			margin-top: 5%;
+			color: $titleTextClr;
+			border-width: 0 0 1.5px 0;
+			border-color: $titleBorderClr;
+			border-style: solid;
+		}
+
+		.editMenuFormItem {
+			position: relative;
+			width: 90%;
+			height: 90%;
+			display: flex;
+			margin-bottom: 1%;
+			
+			label{
+				align-self: center;
+				margin-right: 5%;
+				color: $textClr;
+			}
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}

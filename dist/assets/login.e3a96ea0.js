@@ -1,0 +1,1 @@
+import{u as s,a}from"./url.910aed66.js";const e=s();function o(s,o){return a.post(e.url+"/user/login/",{email:s.value.email,password:s.value.password,code:s.value.password,login_type:o})}function r(s){return a.post(e.url+"/user/code/",{email:s})}export{o as l,r as v};

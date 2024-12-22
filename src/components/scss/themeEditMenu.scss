@@ -1,0 +1,266 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+.themeEditMenuContainer{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+$mainBackgroundClr:#2c232c;
+
+.tab{
+	position: relative;
+	width: 100%;
+	height: inherit;
+	display: flex;
+	flex-direction: column;
+	
+	.header{	
+		position: relative;
+		width: 100%;
+		height: 10%;
+		display: flex;
+		justify-content: center;
+		
+		.ball-road{
+			position: relative;
+			width: 70%;
+			height: 100%;
+			display: flex;
+			justify-content: space-between;
+			
+			.tabSelect{
+				width: 50%;
+				height: 100%;
+				appearance: none;
+			}
+			.start:checked{
+				~.icon .ball{
+					transform: translateX(0%);
+				}
+				~.icon .themeIcon{
+					fill: #dddddd;
+				}
+				~.icon .themeText{
+					color: #dddddd;
+				}
+			}
+			.end:checked{
+				~.icon .ball{
+					transform: translateX(150%);
+				}
+				~.icon .layoutIcon{
+					fill: #dddddd;
+				}
+				~.icon .layoutText{
+					color: #dddddd;
+				}
+			}
+		}
+		
+		.icon{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: space-between;
+			gap: 20%;
+			align-items: center;
+			pointer-events: none;
+
+			.iconContainer{
+				width: 50%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 1vmin;
+				svg{
+					position: relative;
+					z-index: 1;
+					width: 30%;
+					height: 100%;
+					fill: $mainBackgroundClr;
+					transition: 0.5s;
+				}
+				span{
+					position: relative;
+					z-index: 1;
+					color: $mainBackgroundClr;
+				}
+			}
+			
+			
+		}
+		
+		.ball{
+			position: absolute;
+			left: 0%;
+			bottom: -1%;
+			z-index: 0;
+			width: 40%;
+			height: 100%;
+			border-radius: 10px 10px 0 0;
+			background-color: $mainBackgroundClr;
+			transition: 0.5s;
+
+			$size:20px;
+			$x:calc($size * -1);
+			$y:calc(0%);
+			$radius:10px;
+
+			&::before{
+				content: "";
+				position: absolute;
+				left: $x;
+				bottom: $y;
+				width: $size;
+				height: $size;
+				background-color: transparent;
+				border-bottom-right-radius: $radius;
+				box-shadow: 10px 10px 0px $mainBackgroundClr;
+			}
+			&::after{
+				content: "";
+				position: absolute;
+				right: $x;
+				bottom: $y;
+				width: $size;
+				height: $size;
+				background-color: transparent;
+				border-bottom-left-radius: $radius;
+				box-shadow: -10px 10px 0px $mainBackgroundClr;
+			}
+		}
+	}
+
+	.main{
+		position: relative;
+		top: -1px;
+		width: 100%;
+		height: 100%;
+		border-radius: 20px;
+		background-color: $mainBackgroundClr;
+		display: flex;
+		overflow: hidden;
+
+
+		// 手机端适配
+		@media screen and (max-device-width: 768px) {
+			border-radius: 20px 20px 0 0;
+			.themeGridForm{
+				grid-auto-rows: 30%;
+				gap: 2vmin;
+			}
+		}
+		//平板端适配
+		@media screen and (min-device-width: 768px) {
+			.themeGridForm{
+				grid-auto-rows: 20%;
+				gap: 1vmin;
+			}
+		}
+
+		.themeGridForm{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			padding-top: 1vmin;
+			padding-right: 0;
+			display: grid;
+			grid-template-columns: 50% 50%;
+			justify-items: center;
+			align-items: center;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			&::-webkit-scrollbar{
+				opacity: 0;
+			}
+
+			.themeGridFormItem{
+				position: relative;
+				width: 90%;
+				height: 90%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				input[type="radio"]{
+					width: 100%;
+					height: 100%;
+					appearance: none;
+
+					&:checked{
+						~.themeOption{
+							border-color: #dddddd;
+						}
+					}
+				}
+
+				.themeOption{
+					pointer-events: none;
+					position:absolute;
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					border-width: 2px;
+					border-radius: 10px;
+					border-style: solid;
+					border-color: transparent;
+					transition: 0.5s ease-in-out;
+					.themeGridFormItemContent{
+						position: relative;
+						width: 100%;
+						height: 75%;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						.color{
+							width: 20%;
+							aspect-ratio: 1/1;
+							border-radius: 50%;
+							
+						}
+					}
+					span{
+						color: #dddddd;
+					}
+				}				
+			}
+		}
+	}
+	
+}
+
+.fade-enter-from,
+.fade-leave-to{
+	opacity: 0;
+	transform: translateX(100%);
+}
+.fade-enter-active,
+.fade-leave-active{
+	transition: 0.5s;
+}
+
+.soar-enter-from,
+.soar-leave-to{
+	opacity: 0;
+	transform: translateY(100%);
+}
+.soar-enter-active,
+.soar-leave-active{
+	transition: 0.5s;
+}
+
+
+.themeSelect{
+	width: 10%;
+	height: 10%;
+	appearance: none;
+}

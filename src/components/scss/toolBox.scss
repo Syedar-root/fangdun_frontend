@@ -1,0 +1,309 @@
+	$borderRadius: 12px;
+	$backGroundColor: transparent;
+	$itemColor1: #4b55cc;
+	$itemColor2: #5ebaf9;
+	$itemColor3: #5ecc82;
+	$itemColor-Focus: #e3bd8d;
+	$iconColor: #fafafa;
+	
+
+	.wrap-toolBox {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		background-color: $backGroundColor;
+		border-radius: $borderRadius;
+		
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.base-item{
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		transition: 0.1s;
+		border-radius: 50%;
+	}
+	
+	.group {
+		position: relative;
+		height: 100%;
+		margin-left: 1%;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		gap: 1vmin;
+		$size: 8vmin;
+		.switch{
+			@extend.base-item;
+			background-color: $itemColor1;
+			border: 1px solid $itemColor1;
+		}
+		.item{
+			@extend.base-item;
+			background-color: rgb(94, 186, 249,0.2);
+			border: 1px solid $itemColor2;
+			span {
+				text-align: center;
+				color: $itemColor2;
+				margin-top: 2%;
+				font-weight: 600;
+			}
+			&:active {
+				background-color: $itemColor2;
+				.itemIcon {
+					fill: #fff;
+				}
+				span {
+					color: #fff;
+				}
+			}
+		}
+
+		// 导出菜单容器样式
+		.exportContainer{
+			position: relative;
+			width: auto;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.exportMenu{
+				position: absolute;
+				top: 100%;
+				margin-top: 1vmin;
+				display: flex;
+				flex-direction: column;
+				gap: 1vmin;
+				align-items: center;
+			}
+
+			.rollIn_vertical-enter-from,
+			.rollIn_vertical-leave-to {
+				opacity: 0;
+				transform: translateY(-100%);
+			}
+			.rollIn_vertical-enter-active,
+			.rollIn_vertical-leave-active {
+				transition: 0.5s calc(0.1s * var(--i));
+			}
+		}
+
+		// 手机端主工具栏样式
+		@media screen and (max-device-width:767px){
+			$size: 10vmin;
+			$iconSize:5vmin;
+			$textSize:2vmin;
+			.switch {
+				width: $size;
+				height: $size;
+				.itemIcon {	
+					// fill: $iconColor;
+					path{
+						stroke: $iconColor;
+					}
+					width: $iconSize;
+					height: $iconSize;
+				}
+			}
+			.item {
+				width: $size;
+				height: $size;
+				.itemIcon {
+					// fill: $itemColor2;
+					path{
+						stroke: $itemColor2;
+					}
+					width: calc($iconSize * 0.9);
+					height: calc($iconSize * 0.9);
+				}
+				span{
+					font-size: $textSize;
+				}
+			}
+		}
+		// 平板端工具栏样式
+		@media screen and (min-device-width:768px){
+			$size: 5vmin;
+			$iconSize:3.2vmin;
+			$textSize:1.2vmin;
+			.switch {
+				width: $size;
+				height: $size;
+				.itemIcon {	
+					// fill: $iconColor;
+					path{
+						stroke: $iconColor;
+					}
+					width: $iconSize;
+					height: $iconSize;
+				}
+			}
+			.item {
+				width: $size;
+				height: $size;
+				.itemIcon {
+					// fill: $itemColor2;
+					path{
+						stroke: $itemColor2;
+					}
+					width: calc($iconSize * 0.9);
+					height: calc($iconSize * 0.9);
+				}
+				span{
+					font-size: $textSize;
+				}
+			}
+		}
+		
+
+		.rollIn-enter-from,
+		.rollIn-leave-to {
+			transform: translateX(calc(-50% - 50% * var(--i)));
+			opacity: 0;
+		}
+		.rollIn-enter-active,
+		.rollIn-leave-active {
+			transition: 0.5s calc(0.1s + 0.05s * var(--i));
+		}
+	}
+
+	.rightGroup{
+		position: relative;
+		margin-right: 1%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-self: center;
+		gap: 2vmin;
+
+
+		.item{
+			@extend.base-item;
+			align-self: center;
+			gap: 1vmin;
+			background-color: rgb(94, 204, 130,0.2);
+			border: 1px solid $itemColor3;
+			.itemIcon {
+				position: relative;
+				align-self: center;
+				// fill: $itemColor3;
+				path{
+					stroke: $itemColor3;
+				}
+			}
+			&:active {
+				background-color: $itemColor3;
+				.itemIcon {
+					fill: #fff;
+				}
+				span {
+					color: #fff;
+				}
+			}
+		}
+		// 手机端撤回样式
+		@media screen and (max-device-width:767px){
+			$size: 10vmin;
+			$iconSize:5vmin;
+			$textSize:2vmin;
+			.item{
+				width: $size;
+				height: $size;
+				.itemIcon{
+					width: $iconSize;
+					height: $iconSize;
+				}
+			}
+		}
+		// 平板端撤回样式
+		@media screen and (min-device-width:768px){
+			$size: 5vmin;
+			$iconSize:3.2vmin;
+			$textSize:1.2vmin;
+			.item{
+				width: $size;
+				height: $size;
+				.itemIcon{
+					width: $iconSize;
+					height: $iconSize;
+				}
+			}
+		}
+	}
+
+
+// 手机端
+// @media screen and (max-device-width:767px){
+// 	.wrap-toolBox {
+// 		position: relative;
+// 		width: 100%;
+// 		height: 100%;
+// 		background-color: $backGroundColor;
+// 		border-radius: $borderRadius;
+// 		box-shadow: 3px -5px 4px rgba(0, 0, 0, 0.25), inset 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
+	
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 	}
+	
+// 	.group {
+// 		position: relative;
+// 		width: 85%;
+// 		height: 80%;
+// 		display: flex;
+// 		flex-direction: column;
+// 		justify-content: space-evenly;
+// 		align-items: center;
+// 		gap: 2vmin;
+	
+// 		$size: 11vmin;
+// 		.item {
+// 			position: relative;
+// 			width: $size;
+// 			height: $size;
+// 			background-color: $itemColor;
+// 			border-radius: $borderRadius;
+// 			transition: 0.5s;
+// 			display: flex;
+// 			flex-direction: column;
+// 			justify-content: center;
+// 			align-items: center;
+	
+// 			span {
+// 				display: none;
+// 				text-align: center;
+// 				color: $iconColor;
+// 				margin-top: 2%;
+// 				font-size: 2vmin;
+// 				font-weight: 500;
+// 			}
+			
+			
+// 			.itemIcon {
+// 				$size:6vmin;
+// 				fill: $iconColor;
+// 				width: $size;
+// 				height: $size;
+// 			}
+	
+// 			&:active {
+// 				background-color: $itemColor-Focus;
+	
+// 				.itemIcon {
+// 					fill: #fff;
+// 				}
+	
+// 				span {
+// 					color: #fff;
+// 				}
+// 			}
+// 		}
+// 	}
+// }

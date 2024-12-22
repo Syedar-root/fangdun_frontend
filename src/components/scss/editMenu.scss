@@ -1,0 +1,196 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.editMenuContainer{
+	position: relative;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	
+}
+
+
+// 平板端
+@media screen and (min-device-width:768px) { 
+	.editMenuContent{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 12px;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		gap: 1vmin;
+	}
+}
+
+// 手机端
+@media screen and (max-device-width:767px) { 
+	.editMenuContent{
+		position: absolute;
+		min-width: 100%;
+		height: 100%;
+		display: grid;
+		grid-template-rows: 1fr;
+		grid-template-columns: repeat(6,20%) ;
+		gap: 1.5vmin;
+		justify-items:center;
+		align-items: center;
+		overflow-x: visible;
+	}
+}
+
+
+
+.item{
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+	justify-content: center;
+	gap: 1vmin;
+	transition: 0.2s;
+	border-radius: 12px;
+	.icon svg{
+		transform: scale(1.2);
+	}
+}
+
+@media screen and (min-device-width:768px) {
+	$size:10vmin;
+	$iconSize:3vmin;
+	$textSize:1.5vmin;
+	.item{
+		width: $size;
+		height: $size;
+		font-size: $textSize;
+	}
+	.icon{
+		width: $iconSize;
+		height: $iconSize;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		span{
+			font-size: $textSize;
+			font-weight: 600;
+		}
+	}
+}
+@media screen and (max-device-width:767px) {
+	$size:20vmin;
+	$iconSize:6vmin;
+	$textSize:3vmin;
+	.item{
+		width: $size;
+		height: $size;
+		font-size: $textSize;
+	}
+	.icon{
+		width: $iconSize;
+		height: $iconSize;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	span{
+		font-size: $textSize;
+		font-weight: 600;
+		text-wrap: nowrap;
+	}
+}
+
+// 颜色
+$color1:#5ebaf9;
+$color1-noActive:rgb(94, 186, 249,0.2);
+$color2:#4b55cc;
+$color2-noActive:rgb(75, 85, 204,0.2);
+$color3:#ec6565;
+$color3-noActive:rgb(236, 101, 101,0.2);
+$color4:#ee8432;
+$color4-noActive:rgb(238, 132, 50,0.2);
+
+@for $j from 1 through 6{
+	.i#{$j}{
+		@if($j<=2){
+			background-color: $color1-noActive;
+			border: 1px solid $color1;
+			&:active{
+				background-color: $color1;
+			}
+			.icon svg {
+				// fill: $color1;
+				path{
+					stroke: $color1;
+				}
+			}
+			span{
+				color: $color1;
+			}
+		}
+		@else if($j==3){
+			background-color: $color3-noActive;
+			border: 1px solid $color3;
+			&:active{
+				background-color: $color3;
+			}
+			.icon svg {
+				// fill: $color3;
+				path{
+					stroke: $color3;
+				}
+			}
+			span{
+				color: $color3;
+			}
+		}
+		@else if($j==4){
+			background-color: $color4-noActive;
+			border: 1px solid $color4;
+			&:active{
+				background-color: $color4;
+			}
+			.icon svg {
+				// fill: $color4;
+				path{
+					stroke: $color4;
+				}
+			}
+			span{
+				color: $color4;
+			}
+		}
+		@else if($j>=5){
+			background-color: $color2-noActive;
+			border: 1px solid $color2;
+			&:active{
+				background-color: $color2;
+			}
+			.icon svg {
+				// fill: $color2;
+				path{
+					stroke: $color2;
+				}
+				.AI{
+					fill: #fafafa;
+				}
+			}
+			span{
+				color: $color2;
+			}
+		}
+
+		&:active{
+			.icon svg {
+				fill: #fafafa;
+			}
+			span{
+				color: #fafafa;
+			}
+		}
+	}
+
+	
+}

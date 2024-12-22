@@ -1,0 +1,536 @@
+
+
+@import "../../assets/style/variables.scss";
+
+$addFormBackgroundColor: $Color2;
+$addFormButtonBackgroundColor1: $Color1;
+$addFormButtonBackgroundColor2: $Color5;
+$textColor-light: $Color5;
+$textColor-dark: $Color6;
+$itemPicBackgroundColor: $Color2;
+
+*{
+	padding: 0;
+	margin: 0;
+	color: #348fcc;
+}
+
+/*pc端*/
+@media screen and (min-device-width:768px) {
+	.wrap{
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		background-color: aliceblue;
+		display: flex;
+		flex-direction: column;
+	}
+	.header{
+		position: relative;
+		width: 100%;
+		height: 12%;
+		display: flex;
+		
+		.left{
+			position: relative;
+			width: 10%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			svg{
+				width: 50%;
+				height: 50%;
+			}
+		}
+		
+		.center{
+			position: relative;
+			width: 80%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.searchIcon{
+				width: 5%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.searchInput{
+				width: 40%;
+				height: 45%;
+				border-radius: 5px;
+				border-width: 0;
+				margin-left: 2%;
+				outline: none;
+				padding-left: 1vmin;
+				padding-right: 1vmin;
+				font-size: 2.5vmin;
+			}
+		}
+		
+		.right{
+			position: relative;
+			width: 10%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			svg{
+				width: 50%;
+				height: 50%;
+			}
+		}
+	}
+	.main{
+		position: relative;
+		margin-top: 1%;
+		width: 100%;
+		height: 88%;
+		display: flex;
+		justify-content: center;
+		
+		.table{
+			position: relative;
+			width: 80%;
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-auto-rows: 30%;
+			
+			.item{
+				position: relative;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				.pic{
+					position: relative;
+					width: 55%;
+					aspect-ratio: 1/1;
+					background-color: $itemPicBackgroundColor;
+					border-radius: 15%;
+					margin-bottom: 5%;
+					overflow: hidden;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					.img{
+						width: 100%;
+						height: 100%; 
+						object-fit: contain;
+					}
+				}
+				
+				span{
+					width: 100%;
+					text-align: center;
+					font-size: 3vmin;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					.el-icon{
+						margin-left: 3%;
+						font-size: 2vmin;
+						transition: 0.2s;
+					}
+				}
+
+				
+				
+			}
+			
+			.addItem{
+				position: relative;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				.pic{
+					position: relative;
+					width: 55%;
+					aspect-ratio: 1/1;
+					// background-color: $itemPicBackgroundColor;
+					border: 0.5vmin dashed $itemPicBackgroundColor;
+					border-radius: 15%;
+					margin-bottom: 5%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					
+					svg{
+						stroke: $itemPicBackgroundColor;
+						stroke-width: 2;
+						fill: transparent;
+						transform: scale(1.5);
+					}
+				}
+				
+				span{
+					width: 100%;
+					text-align: center;
+					font-size: 3vmin;
+				}
+			}
+		}
+	}
+	@keyframes moveIn {
+		0%{
+			transform: translateY(100%);
+		}
+		100%{
+			transform: translateY(0);
+		}
+	}
+	
+	.mask{
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		z-index: 999;
+		background-color: rgba(0,0,0,0.4);
+		overflow: hidden;
+		
+	}
+	
+	.addMapForm{
+		position: absolute;
+		width: 100%;
+		height: 50%;
+		background-color: $addFormBackgroundColor;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5%;
+		bottom: 0;
+		border-radius: 15px 15px 0 0;
+		// animation: moveIn 0.3s linear 0s 1 normal;
+		// animation-fill-mode: both;
+		
+		input{
+			width: 50%;
+			outline: none;
+			height: 10%;
+			border-radius: 12px;
+			border-width: 0;
+			padding: 1vmin;
+			text-align: center;
+			font-size: 3vmin;
+
+			&::placeholder{
+				font-size: 2vmin;
+			}
+		}
+		
+		.addMapFormBttn{
+			width: 20%;
+			height: 10%;
+			border-radius: 12px;
+			border-width: 0;
+			transition: 0.2s;
+		}
+
+		.b1{
+			background-color: $addFormButtonBackgroundColor1;
+			color: $textColor-light;
+		}
+		.b2{
+			background-color: $addFormButtonBackgroundColor2;
+			color: $textColor-dark;
+		}
+	}
+}
+
+
+/*手机端*/
+@media screen and (max-device-width:767px) {
+	.wrap{
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		background-color: aliceblue;
+		display: flex;
+		flex-direction: column;
+	}
+	.header{
+		position: relative;
+		width: 100%;
+		height: 10%;
+		display: flex;
+		
+		.left{
+			position: relative;
+			width: 20%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			svg{
+				width: 30%;
+				height: 30%;
+			}
+		}
+		
+		.center{
+			position: relative;
+			width: 80%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.searchIcon{
+				width: 7%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.searchInput{
+				width: 70%;
+				height: 40%;
+				border-radius: 10px;
+				border-width: 0;
+				margin-left: 5%;
+				padding:0 10px 0 10px; 
+				outline: none;
+			}
+		}
+		
+		.right{
+			position: relative;
+			width: 20%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			svg{
+				width: 30%;
+				height: 30%;
+			}
+		}
+	}
+	.main{
+		position: relative;
+		width: 100%;
+		height: 88%;
+		display: flex;
+		justify-content: center;
+		
+		.table{
+			position: relative;
+			width: 90%;
+			display: grid;
+			grid-template-columns: 33.3% 33.3% 33.3%;
+			grid-auto-rows: 20%;
+			justify-items: center;
+			align-content: start;
+			
+			.item{
+				position: relative;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				.pic{
+					position: relative;
+					width: 70%;
+					aspect-ratio: 1/1;
+					background-color: $itemPicBackgroundColor;
+					border-radius: 15%;
+					margin-bottom: 5%;
+					overflow: hidden;
+					.img{
+						width: 100%;
+						height: 100%; 
+						object-fit: contain;
+					}
+				}
+				
+				span{
+					width: 100%;
+					text-align: center;
+					font-size: 3.5vmin;
+				}
+				
+			}
+			
+			.addItem{
+				position: relative;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				.pic{
+					position: relative;
+					width: 70%;
+					aspect-ratio: 1/1;
+					// background-color: $itemPicBackgroundColor;
+					border: 0.7vmin dashed $itemPicBackgroundColor;
+					border-radius: 15%;
+					margin-bottom: 5%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					svg{
+						stroke: $itemPicBackgroundColor;
+						stroke-width: 2px;
+						fill: transparent;
+						transform: scale(1);
+					}
+				}
+				
+				span{
+					width: 100%;
+					text-align: center;
+					font-size: 3.5vmin;
+				}
+			}
+		}
+	}
+	
+	@keyframes moveIn {
+		0%{
+			transform: translateY(100%);
+		}
+		100%{
+			transform: translateY(0);
+		}
+	}
+	
+	.mask{
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		z-index: 999;
+		background-color: rgba(0,0,0,0.4);
+		
+	}
+	.addMapForm{
+		position: absolute;
+		width: 100%;
+		height: 50%;
+		background-color: $addFormBackgroundColor;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5%;
+		bottom: 0;
+		border-radius: 15px 15px 0 0;
+		// animation: moveIn 0.3s linear 0s 1 normal;
+		// animation-fill-mode: both;
+
+		input{
+			width: 50%;
+			outline: none;
+			height: 10%;
+			border-radius: 12px;
+			border-width: 0;
+			padding: 1vmin;
+			text-align: center;
+			font-size: 3vmin;
+		}
+		.addMapFormBttn{
+			width: 20%;
+			height: 10%;
+			border-radius: 12px;
+			border-width: 0;
+			transition: 0.2s;
+		}
+
+		.b1{
+			background-color: $addFormButtonBackgroundColor1;
+			color: $textColor-light;
+		}
+		.b2{
+			background-color: $addFormButtonBackgroundColor2;
+			color: $textColor-dark;
+		}
+	}
+}
+
+.optMenu{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+	width: 100%;
+	height: 20%;
+	@media screen and (max-device-width:767px) {
+		width: 100%;
+		height: 20%;
+	}
+	background-color: #fafafa;
+	border-radius: 12px 12px 0 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	// padding: 1vmin;
+
+	.optMenuItem{
+		width: 93%;
+		height: 30%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 2vmin;
+		@media screen and (max-device-width:767px) {
+			font-size: 4vmin;
+		}
+	}
+
+	input{
+		width: 100%;
+		height: 100%;
+		outline: none;
+		text-align: center;
+		border-radius: 10px;
+		border-width: 0;
+		background-color: #dddddd;
+	}
+	button{
+		width: 100%;
+		height: 100%;
+		outline: none;
+		border-width: 0;
+		border-radius: 10px;
+		background-color: $Color8;
+		color: #fafafa;
+	}
+}
+
+.optMenuShow-enter-from,
+.optMenuShow-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.optMenuShow-enter-active,
+.optMenuShow-leave-active {
+  transition: 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.3s;
+}
