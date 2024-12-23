@@ -44,10 +44,6 @@
                         </div>
                     </div>
 
-
-                    <!-- <hr> -->
-
-
                     <!-- AI相关设置 -->
                     <div class="infoForm">
                         <div class="infoFormTitle">
@@ -114,6 +110,13 @@
                             <button class="cancel" @click="AiFormSubmitCancel">取消</button>
                         </div>
                     </div>
+
+                    <!-- 退出登陆 -->
+                    <div class="infoForm">
+                        <div class="infoFormItem">
+                            <button class="exit" @click="exitLogin()">退出登陆</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,8 +134,10 @@ import { get_model_list } from '../api/ai';
 import cloneDeep from 'lodash/cloneDeep';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
+import { useTokenStore } from '../store/token';
 
 const router = useRouter();
+const tokenStore = useTokenStore();
 
 const userForm = ref({
     username: undefined,
@@ -217,6 +222,15 @@ const time = computed(() => {
         return "晚安";
     }
 })
+function exitLogin() {
+    tokenStore.removeToken()
+    tokenStore.removeRefresh()
+    ElMessage({
+        message: '退出成功',
+        type: 'success',
+    });
+    router.push('/login');
+}
 onMounted(async () => {
     await get_user_profile().then(res => {
         user_profile_query = cloneDeep(res.data);

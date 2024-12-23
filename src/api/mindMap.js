@@ -20,7 +20,6 @@ export function getMindMap(title) {
 	// 		Authorization: 'Bearer ' + tokenStore.token
 	// 	}
 	// })
-	
 	return axios.get(urlStore.url + '/mindmap/select/', {
 		params: {
 			title: title,

@@ -32,7 +32,7 @@ export function verify_service(email) {
 	})
 }
 
-export function refresh_token() {
+export async function refresh_token() {
 	return axios.post(urlStore.url + '/user/refresh/', {
 		refresh:tokenStore.refresh
 	})
@@ -43,31 +43,56 @@ export function isInvaid(router) {
 		get_user_profile().then((response) => {
 			if (response.status === 200) {
 				router.push('/indexPage');
+				return false;
 			}
 		}).catch((e) => {
 			console.log(e);
-			if (e.status === 403) {
-				refresh_token().then((res) => {
-					tokenStore.removeToken();
-					tokenStore.setToken(res.data.access);
-					get_user_profile().then((response) => {
-						if (response.status === 200) {
-							router.push('/indexPage');
-						}
-					})
-				}).catch((e) => {
-					ElMessage({
-						message: '登录过期，请重新登录',
-						type: 'warning',
-						duration: 2500,
-						offset: 45
-					})
-					router.push('/login');
+			refresh_token().then((res) => {
+				tokenStore.removeToken();
+				tokenStore.setToken(res.data.access);
+				get_user_profile().then((response) => {
+					if (response.status === 200) {
+						router.push('/indexPage');
+						return false;
+					}
 				})
-			}
+			}).catch((e) => {
+				ElMessage({
+					message: '登录过期，请重新登录',
+					type: 'warning',
+					duration: 2500,
+					offset: 45
+				})
+				router.push('/login');
+				return true;
+			})
 		})
 	} else {
 		router.push('/login');
+		return true;
 	}
+}
 
+export async function isEnpiredOrInvaid() {
+    if (tokenStore.token!== '') {
+        try {
+            const response = await get_user_profile();
+            if (response.status === 200) {
+                return false;
+            }
+        } catch (e) {
+            console.log(e);
+            try {
+                const res = await refresh_token();
+                tokenStore.removeToken();
+                tokenStore.setToken(res.data.access);
+                return false;
+            } catch (e) {
+                console.log(e);
+                return true;
+            }
+        }
+    } else {
+        return true;
+    }
 }

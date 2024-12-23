@@ -114,10 +114,11 @@ import {
 import {
 	useMindMapStore
 } from '../store/mindMap';
+import { useTokenStore } from '../store/token';
 import {
 	useRouter
 } from 'vue-router';
-import { isInvaid } from '../api/login'
+import { isInvaid, isEnpiredOrInvaid } from '../api/login'
 
 const mindMapStore = useMindMapStore();
 const router = useRouter()
@@ -126,7 +127,6 @@ async function initIndexPage() {
 	await getMindMap().then((res) => {
 		console.log(res)
 		mindMapList.value = res.data
-
 	}).catch((e) => {
 		ElMessage({
 			message: '获取列表状态失败',
@@ -293,17 +293,23 @@ function goToUserCenter() {
 	router.push('/userCenter')
 }
 
+const tokenStore = useTokenStore();
+
 onMounted(async () => {
-	await isInvaid(router)
-	initIndexPage()
-	console.log(mindMapList)
-	document.addEventListener('deviceready', () => {
+	let result = await isEnpiredOrInvaid();
+	if (result) {
 		ElMessage({
-			message: 'Cordova is ready',
-			type: 'success',
+			message: '登录已过期，请重新登录',
+			type: 'error',
 			duration: 2500,
 			offset: 45
 		})
+		router.push('/login')
+	} else if (result === false) {
+		await initIndexPage()
+	}
+	console.log(mindMapList)
+	document.addEventListener('deviceready', () => {
 		window.StatusBar.backgroundColorByHexString('#5ebaf9');
 	}, false);
 })
