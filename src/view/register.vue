@@ -1,6 +1,9 @@
 <template>
 	<div class="wrap">
 		<div class="header">
+			<div class="back_icon" @click="router.push('/login')">
+				<ArrowLeft />
+			</div>
 			<span class="title">注册</span>
 		</div>
 		<div class="main">
@@ -46,7 +49,12 @@
 
 	<div class="next_wrap" v-if="verifyViewShow" v-loading="loading" element-loading-backgound="rbga(100,100,100,0.2)">
 		<div class="verify_text">
-			<span>邮箱验证</span>
+			<span>
+				<div class="back_icon" @click="verifyViewShow = false">
+					<ArrowLeft />
+				</div>
+				邮箱验证
+			</span>
 			<p>验证码已发送至：{{ registerList.email }}</p>
 			<a @click="toVerify">{{ verifyText }}</a>
 		</div>
@@ -73,6 +81,7 @@ import { verify_service_register, register_service } from '../api/register';
 import { login_service } from '../api/login.js';
 import { ElMessage } from 'element-plus';
 import { useTokenStore } from '../store/token';
+import { ArrowLeft } from '@element-plus/icons-vue';
 
 const tokenStore = useTokenStore();
 const router = useRouter();

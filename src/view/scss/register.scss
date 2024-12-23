@@ -13,6 +13,7 @@ $form-fontSize:4.5vmin;
 $buttonColor:#D3EEF8;
 $inputColor:#F3FBFF;
 
+
 @media screen and (max-device-width:767px) {
 	.wrap{
 		position: absolute;
@@ -31,6 +32,19 @@ $inputColor:#F3FBFF;
 		height: 18%;
 		display: flex;
 		align-items: center;
+
+		.back_icon{
+			position: relative;
+			margin-left: 3%;
+			width: 10%;
+			aspect-ratio: 1/1;
+			color: $titleColor;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			animation: showIn1 0.5s ease-out 0s 1 normal;	
+			animation-fill-mode: both;
+		}
 		
 		.title{
 			margin-left: 5%;
@@ -199,6 +213,20 @@ $inputColor:#F3FBFF;
 		align-items: center;
 		justify-content: center;
 		
+		.back_icon{
+			position: absolute;
+			top: 26%;
+			left: 2%;
+			width: 5%;
+			aspect-ratio: 1/1;
+			color: $titleColor;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			animation: showIn1 0.5s ease-out 0s 1 normal;	
+			animation-fill-mode: both;
+		}
+
 		.title{
 			color: $titleColor;
 			font-size: 8vmin;
@@ -401,5 +429,22 @@ $inputColor:#F3FBFF;
 			width: 60%;
 			height: 80%;
 		}
+	}
+}
+
+.verify_text{
+	span{
+		display: flex;
+		align-items: center;
+	}
+	.back_icon{
+		width: 4%;
+		@media screen and (max-device-width:768px) {
+			width: 10%;
+		}
+		aspect-ratio: 1/1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 }
