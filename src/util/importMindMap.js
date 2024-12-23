@@ -6,12 +6,12 @@ export const requestReadExternalStoragePermission = () => {
 			const permissions = cordova.plugins.permissions;
 			permissions.requestPermission(permissions.READ_EXTERNAL_STORAGE, (status) => {
                 if (status.hasPermission) {
-                    ElMessage({
-                        message: '已获取读外部存储权限',
-                        type: 'success',
-                        duration: 2500,
-                        offset: 45
-                    })
+                    // ElMessage({
+                    //     message: '已获取读外部存储权限',
+                    //     type: 'success',
+                    //     duration: 2500,
+                    //     offset: 45
+                    // })
 					console.log('已获取读外部存储权限' + cordova);
 					resolve();
 				} else {

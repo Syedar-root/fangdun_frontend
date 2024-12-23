@@ -532,12 +532,12 @@ const mainLoading = ref(false);
 onMounted(() => {
 	document.addEventListener('deviceready', () => {
 		console.log('Cordova is ready');
-		ElMessage({
-			message: 'Cordova is ready',
-			type: 'success',
-			duration: 2500,
-			offset: 45
-		})
+		// ElMessage({
+		// 	message: 'Cordova is ready',
+		// 	type: 'success',
+		// 	duration: 2500,
+		// 	offset: 45
+		// })
 		requestReadExternalStoragePermission(); /* 读取外部存储权限 */
 	}, false);
 	console.log(mindMapStore.mindMap)

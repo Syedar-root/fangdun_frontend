@@ -95,38 +95,25 @@
 </style>
 
 <script setup>
-import {
-	onMounted,
-	ref
-} from 'vue';
-import {
-	getMindMap,
-	createMindMap,
-	updateMindMap,
-	deleteMindMap
-} from '../api/mindMap';
-import {
-	ElMessage
-} from 'element-plus';
-import {
-	ArrowDown
-} from '@element-plus/icons-vue';
-import {
-	useMindMapStore
-} from '../store/mindMap';
+import { onMounted, ref } from 'vue';
+import { getMindMap, createMindMap, updateMindMap, deleteMindMap } from '../api/mindMap';
+import { ElMessage } from 'element-plus';
+import { ArrowDown } from '@element-plus/icons-vue';
+import { useMindMapStore } from '../store/mindMap';
 import { useTokenStore } from '../store/token';
-import {
-	useRouter
-} from 'vue-router';
+import { useMindMapListStore } from '../store/mindMapList';
+import { useRouter } from 'vue-router';
 import { isInvaid, isEnpiredOrInvaid } from '../api/login'
 
 const mindMapStore = useMindMapStore();
+const mindMapListStore = useMindMapListStore()
 const router = useRouter()
 const mindMapList = ref([])
 async function initIndexPage() {
 	await getMindMap().then((res) => {
 		console.log(res)
 		mindMapList.value = res.data
+		mindMapListStore.mindMapList = res.data
 	}).catch((e) => {
 		ElMessage({
 			message: '获取列表状态失败',
@@ -296,6 +283,9 @@ function goToUserCenter() {
 const tokenStore = useTokenStore();
 
 onMounted(async () => {
+	// 加载页面缓存
+	mindMapList.value = mindMapListStore.mindMapList;
+
 	let result = await isEnpiredOrInvaid();
 	if (result) {
 		ElMessage({
