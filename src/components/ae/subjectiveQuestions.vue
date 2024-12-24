@@ -59,7 +59,8 @@ function showAnwser(item, itemIndex) {
 </script>
 
 <template>
-    <div class="subjectiveQuestionsContainer" ref="sc" v-loading="loading">
+    <div class="subjectiveQuestionsContainer" ref="sc" v-loading="loading"
+        element-loading-background="rgba(100,100,100,0.3)" element-loading-text="生成中，请稍等">
         <div class="subjectiveQuestionsContent" v-for="(item, itemIndex) in questions"
             :name="item.question + itemIndex">
             <div class="header">

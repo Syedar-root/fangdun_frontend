@@ -145,32 +145,39 @@ const themeList = ref([
 		color3: "#B0BC47"
 	},
 	{
-		name: '秋天',
-		value: 'autumn',
-		color1: "#E68112",
-		color2: "#FFF2DF",
-		color3: "#B0BC47"
+		name: '莫兰迪',
+		value: 'morandi',
+		color1: "#CF7969",
+		color2: "#EFD2CF",
+		color3: "#FCF5F1"
 	},
 	{
-		name: '秋天',
-		value: 'autumn',
-		color1: "#E68112",
-		color2: "#FFF2DF",
-		color3: "#B0BC47"
+		name: '深夜办公室',
+		value: 'lateNightOffice',
+		color1: "#1799F3",
+		color2: "#464E5E",
+		color3: "#202531"
 	},
 	{
-		name: '秋天',
-		value: 'autumn',
-		color1: "#E68112",
-		color2: "#FFF2DF",
-		color3: "#B0BC47"
+		name: '橙汁',
+		value: 'orangeJuice',
+		color1: "#FF6811",
+		color2: "#FFFFFF",
+		color3: "#070616"
 	},
 	{
-		name: '秋天',
-		value: 'autumn',
-		color1: "#E68112",
-		color2: "#FFF2DF",
-		color3: "#B0BC47"
+		name: '霓虹灯',
+		value: 'neonLamp',
+		color1: "#FF00D6",
+		color2: "#FBE9F8",
+		color3: "#111154"
+	},
+	{
+		name: '暗夜冰刃',
+		value: 'darkNightLceBlade',
+		color1: "#00F3FF",
+		color2: "#FFFFFF",
+		color3: "#001515"
 	},
 ]);
 

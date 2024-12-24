@@ -1,5 +1,5 @@
 <template>
-	<div class="wrap">
+	<div class="wrap" ref="wrap">
 		<!-- 顶栏 -->
 		<div class="header">
 			<div class="left" @click="goToUserCenter">
@@ -20,12 +20,12 @@
 				<input class="searchInput" type="text" v-model="searchTitle" @blur="searchMindMap" />
 			</div>
 			<div class="right">
-				<svg width="45" height="50" viewBox="0 0 45 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<!-- <svg width="45" height="50" viewBox="0 0 45 50" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M18.9358 4.76649C21.1601 3.56509 23.8399 3.56509 26.0642 4.76649L38.5643 11.518C40.9888 12.8276 42.5 15.3613 42.5 18.117V32.9347C42.5 35.8226 40.8418 38.454 38.2367 39.7003L25.7367 45.6802C23.69 46.6594 21.31 46.6594 19.2633 45.6802L6.76335 39.7003C4.15817 38.454 2.5 35.8226 2.5 32.9347V18.117C2.5 15.3613 4.01116 12.8276 6.43575 11.518L18.9358 4.76649Z"
 						stroke="black" stroke-width="5" />
 					<circle cx="22.6666" cy="25" r="5.83333" stroke="black" stroke-width="5" />
-				</svg>
+				</svg> -->
 
 			</div>
 		</div>
@@ -103,7 +103,7 @@ import { useMindMapStore } from '../store/mindMap';
 import { useTokenStore } from '../store/token';
 import { useMindMapListStore } from '../store/mindMapList';
 import { useRouter } from 'vue-router';
-import { isInvaid, isEnpiredOrInvaid } from '../api/login'
+import { isEnpiredOrInvaid } from '../api/login';
 
 const mindMapStore = useMindMapStore();
 const mindMapListStore = useMindMapListStore()
@@ -245,8 +245,8 @@ async function renameMindMap() {
 }
 
 // 删除思维导图
-async function delMindMap(item) {
-	await deleteMindMap(item.id).then((res) => {
+async function delMindMap() {
+	await deleteMindMap(form.value.id).then((res) => {
 		console.log(res)
 		ElMessage({
 			message: '删除成功',
@@ -255,6 +255,7 @@ async function delMindMap(item) {
 			offset: 45
 		})
 		optMapShow.value = false;
+		optMapMaskShow.value = false;
 		initIndexPage()
 	}).catch((e) => {
 		console.log(e);
@@ -264,6 +265,8 @@ async function delMindMap(item) {
 			duration: 2500,
 			offset: 45
 		})
+		optMapShow.value = false;
+		optMapMaskShow.value = false;
 	})
 }
 //点击进入
@@ -281,19 +284,19 @@ function goToUserCenter() {
 }
 
 const tokenStore = useTokenStore();
-
 onMounted(async () => {
 	// 加载页面缓存
 	mindMapList.value = mindMapListStore.mindMapList;
-
 	let result = await isEnpiredOrInvaid();
 	if (result) {
-		ElMessage({
-			message: '登录已过期，请重新登录',
-			type: 'error',
-			duration: 2500,
-			offset: 45
-		})
+		if (tokenStore.token !== '') {
+			ElMessage({
+				message: '登录已过期，请重新登录',
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
 		router.push('/login')
 	} else if (result === false) {
 		await initIndexPage()
@@ -301,6 +304,12 @@ onMounted(async () => {
 	console.log(mindMapList)
 	document.addEventListener('deviceready', () => {
 		window.StatusBar.backgroundColorByHexString('#5ebaf9');
+		if (window.innerWidth <= 787) {
+			window.screen.orientation.lock('portrait');
+		} else {
+			window.screen.orientation.lock('landscape');
+		}
+
 	}, false);
 })
 </script>

@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="infoFormItem">
-                            <a>修改密码</a>
+                            <a @click="router.push('/resetPassword')">修改密码</a>
                         </div>
                         <div class="infoFormItem">
                             <button class="confirm" @click="userFormSubmit">确认</button>

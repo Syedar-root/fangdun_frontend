@@ -37,6 +37,7 @@ const selectedSubjectiveQuestions = () => {
     questionsTypeItemMenuShow.value = false;
     learnVueShow.value = false;
     choiseTestVueShow.value = false;
+    TFTestVueShow.value = false;
     subjectiveQuestionsVueShow.value = true;
 }
 

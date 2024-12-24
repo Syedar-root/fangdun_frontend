@@ -151,7 +151,7 @@ function initMap() {
 		el: document.getElementById('mindMapContainer'),
 		data: mapData.value,
 		layout: (mindMapStore.mindMap.data.data.layout === undefined || mindMapStore.mindMap.data.data.layout === null)
-			? 'logicalStructure'
+			? 'mindMap'
 			: mindMapStore.mindMap.data.data.layout,
 		theme: (mindMapStore.mindMap.data.data.theme === undefined || mindMapStore.mindMap.data.data.theme === null)
 			? 'minion'
