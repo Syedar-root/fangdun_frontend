@@ -295,7 +295,7 @@
 
 	.update{
 		position: absolute;
-		top: 10%;
+		top: 8%;
 		right: 0;
 		width: auto;
 		margin-right: 10%;
@@ -331,9 +331,12 @@
 			aspect-ratio: 1/1;
 			background: $Color5;
 			border-radius: 5px;
-			margin-left: 10vmin;
+			margin-left: 6vmin;
 			transition: 0.5s;
 			pointer-events: none;
+			@media screen and (max-device-width:767px) {
+				height: 40%;
+			}
 
 			display: flex;
 			justify-content: center;
@@ -346,9 +349,9 @@
 
 		label{
 			position: relative;
-			width: auto;
+			width: 60%;
 			left: 10vmin;
-			text-wrap: nowrap;
+			text-wrap: wrap;
 			pointer-events: none;
 		}
 	}

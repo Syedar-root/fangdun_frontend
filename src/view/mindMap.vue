@@ -120,6 +120,7 @@ import { nodeGenerate } from '../api/ai.js';
 import { useRouter } from 'vue-router';
 import { Check, Refresh } from '@element-plus/icons-vue';
 import { map } from 'lodash';
+import { mapValues } from 'lodash';
 const router = useRouter();
 
 // 当前思维导图数据
@@ -178,15 +179,18 @@ function initMap() {
 	//点击激活事件
 	mindMap.value.on('node_active', (node, activeNodeList) => {
 		activeNodes.value = activeNodeList;
-		if (isNodeActive(node)) {
+		if (node !== null) {
 			showMenu()
 		}
+		// if (isNodeActive(node)) {
+		// 	showMenu()
+		// }
 	})
 	//点击节点事件
 	mindMap.value.on('node_click', (node, e) => {
-		if (!isNodeActive(node)) {
-			hideMenu();
-		}
+		// if (!isNodeActive(node)) {
+		// 	hideMenu();
+		// }
 	})
 	//点击画布事件
 	mindMap.value.on('draw_click', () => {
@@ -204,6 +208,7 @@ function initMap() {
 	})
 	//数据自动保存
 	mindMap.value.on('data_change', (data) => {
+		console.log(data);
 		const data_all = mindMap.value.getData(true);
 		saveMap(data_all);
 	})
@@ -305,6 +310,8 @@ async function saveMap(data) {
 		console.log(res);
 		mindMapStore.removeMindMap();
 		mindMapStore.setMindMap(res.data);
+		// mindMap.value.updateData(res.data.data.data.root);
+		mapData.value = null;
 		console.log(mindMapStore.mindMap)
 	}).catch((e) => {
 		console.log(e);
@@ -478,7 +485,11 @@ function initHammer() {
 	const mindMapContainer = document.getElementById('mindMapContainer');
 	hammer = new Hammer(mindMapContainer);
 	let mindMapView = mindMap.value.view; //获取画布视图
-	mindMapView.translateXY(-10, -10)
+	mindMapView.fit();
+	let x = window.innerWidth / 1.6;
+	let y = window.innerHeight / 2;
+	mindMapView.translateXY(-x, -y);
+
 	//画布缩放事件 (暂不支持)
 	hammer.get('pinch').set({
 		enable: true
