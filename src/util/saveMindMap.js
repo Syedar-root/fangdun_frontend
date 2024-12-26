@@ -102,7 +102,6 @@ export const saveDataURLToLocal = (data, fileName) => {
         let blob;
         if (fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg') {
             mimeType = fileExtension === 'png'? 'image/png' : 'image/jpeg';
-            // 对于图片DataURL，先按原逻辑解析处理
             const dataUrlParts = data.split(',');
             const byteCharacters = atob(dataUrlParts[1]);
             const byteArrays = [];
@@ -115,17 +114,22 @@ export const saveDataURLToLocal = (data, fileName) => {
                 const byteArray = new Uint8Array(byteNumbers);
                 byteArrays.push(byteArray);
             }
-            blob = new Blob(byteArrays, {
-                type: mimeType
-            });
+            blob = new Blob(byteArrays, { type: mimeType });
         } else if (fileExtension ==='md') {
+            const match = data.match(/data:application\/octet-stream;base64,(.*)/);
+            if (!match) {
+                return reject(new Error('传入的md文件dataURL格式不正确'));
+            }
+            const base64 = match[1];
+            const text = atob(base64);
+            const textDecoder = new TextDecoder('utf-8');
+            const decodedText = textDecoder.decode(new Uint8Array(text.split('').map(char => char.charCodeAt(0))));
             mimeType = 'text/markdown';
-            blob = new Blob([data], { type: mimeType });
+            blob = new Blob([decodedText], { type: mimeType });
         } else {
             return reject(new Error('不支持的文件类型'));
         }
 
-        // 获取合适的本地存储路径，不同平台有不同的根目录
         let dirPath;
         if (window.cordova && window.cordova.platformId === 'android') {
             dirPath = window.cordova.file.externalDataDirectory;
@@ -135,26 +139,60 @@ export const saveDataURLToLocal = (data, fileName) => {
             return reject(new Error('Cordova未正确初始化或者不支持的平台'));
         }
 
-        window.resolveLocalFileSystemURL(dirPath, (dirEntry) => {
-            dirEntry.getFile(fileName, {
-                create: true
-            }, (fileEntry) => {
-                fileEntry.createWriter((fileWriter) => {
-                    fileWriter.onwriteend = () => {
-                        console.log('文件保存成功');
-                        const filePath = dirPath + fileName;
-                        resolve({
-                            filePath,
-                            fileName
-                        }); // 成功时resolve返回包含文件路径和文件名的对象
-                    };
-                    fileWriter.onerror = (error) => {
-                        console.log('保存文件出错：', error);
-                        reject(error);
-                    };
-                    fileWriter.write(blob);
+        const checkFileName = (name, index = 1) => {
+            window.resolveLocalFileSystemURL(dirPath, (dirEntry) => {
+                const reader = dirEntry.createReader();
+                const files = [];
+                const readEntries = () => {
+                    return new Promise((innerResolve, innerReject) => {
+                        reader.readEntries((entries) => {
+                            if (entries.length === 0) {
+                                innerResolve();
+                                return;
+                            }
+                            for (let i = 0; i < entries.length; i++) {
+                                if (entries[i].isFile) {
+                                    files.push(entries[i].name);
+                                }
+                            }
+                            readEntries().then(innerResolve).catch(innerReject);
+                        }, innerReject);
+                    });
+                };
+                readEntries().then(() => {
+                    let newName = name;
+                    let isExist = false;
+                    for (let i = 0; i < files.length; i++) {
+                        if (files[i] === newName) {
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if (isExist) {
+                        const newFileName = `${fileName.split('.')[0]}_${index}.${fileName.split('.')[1]}`;
+                        checkFileName(newFileName, index + 1);
+                    } else {
+                        dirEntry.getFile(newName, { create: true }, (fileEntry) => {
+                            fileEntry.createWriter((fileWriter) => {
+                                fileWriter.onwriteend = () => {
+                                    console.log('文件保存成功');
+                                    const filePath = dirPath + newName;
+                                    resolve({ filePath, newName });
+                                };
+                                fileWriter.onerror = (error) => {
+                                    console.log('保存文件出错：', error);
+                                    reject(error);
+                                };
+                                fileWriter.write(blob);
+                            });
+                        });
+                    }
+                }).catch((error) => {
+                    reject(error);
                 });
             });
-        });
+        };
+
+        checkFileName(fileName);
     });
 };

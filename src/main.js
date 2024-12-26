@@ -14,6 +14,7 @@ import {
 } from 'pinia-plugin-persistedstate';
 import { Uploader } from 'vant';
 import 'vant/lib/index.css';
+import { useRouter } from 'vue-router';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -33,26 +34,34 @@ app.mount('#app');
 let firstBackPressTime = 0;
 document.addEventListener("backbutton", function (e) {
   e.preventDefault();
-  if (firstBackPressTime === 0) {
-    firstBackPressTime = new Date().getTime();
-    // 提示用户再次按下返回键退出应用
-	  ElMessage({
-		  message: '再按一次退出应用',
-		  type: 'info',
-		  duration: 2000,
-	  });
-  } else {
-    let secondBackPressTime = new Date().getTime();
-    if (secondBackPressTime - firstBackPressTime < 2000) {
-      // 如果两次按下返回键的时间间隔小于2秒，退出应用
-      navigator.app.exitApp();
-    } else {
-      firstBackPressTime = secondBackPressTime;
+  let currentPath = router.currentRoute.value.path;
+  if (currentPath === '/' || currentPath === '/login') {
+    // 如果当前路径是首页，执行退出应用的逻辑
+    if (firstBackPressTime === 0) {
+      firstBackPressTime = new Date().getTime();
+      // 提示用户再次按下返回键退出应用
       ElMessage({
-		message: '再按一次退出应用',
-		type: 'info',
-		duration: 2000,
-	});
+        message: '再按一次退出应用',
+        type: 'info',
+        duration: 2000,
+      });
+    } else {
+      let secondBackPressTime = new Date().getTime();
+      if (secondBackPressTime - firstBackPressTime < 2000) {
+        // 如果两次按下返回键的时间间隔小于2秒，退出应用
+        navigator.app.exitApp();
+      } else {
+        firstBackPressTime = secondBackPressTime;
+        ElMessage({
+          message: '再按一次退出应用',
+          type: 'info',
+          duration: 2000,
+        });
+      }
     }
+  } else {
+    // 如果当前路径不是首页，执行返回上一页的逻辑
+    router.back();
   }
+
 });

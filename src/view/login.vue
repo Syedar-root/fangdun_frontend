@@ -113,7 +113,7 @@ const tokenStore = useTokenStore();
 
 //登录模式转换
 const loginModelShow = ref(false); //默认是验证码
-const loginModelText = ref("验证码登录");
+const loginModelText = ref("密码登录");
 
 function transLoginModel() {
 	loginModelShow.value = !loginModelShow.value;

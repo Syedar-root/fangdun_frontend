@@ -162,11 +162,22 @@ import {
 } from 'vue';
 import { parseDataUrl } from 'simple-mind-map/src/utils';
 import { HomeFilled } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 
 const fileContents = ref(null);
-
 function afterRead(file) {
-	console.log(file.content);
+	console.log(file);
+	let fileName = file.file.name;
+	let fileExtension = fileName.split('.').pop();
+	if (fileExtension !== 'md') {
+		ElMessage({
+			message: '文件格式错误',
+			type: 'error',
+			duration: 2500,
+			offset: 45
+		})
+		return;
+	}
 	let result = parseDataUrl(file.content);
 	result = atob(result.base64);
 	const textDecoder = new TextDecoder('utf-8');

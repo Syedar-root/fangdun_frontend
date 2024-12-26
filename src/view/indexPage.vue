@@ -284,7 +284,9 @@ function goToUserCenter() {
 }
 
 const tokenStore = useTokenStore();
+
 onMounted(async () => {
+
 	// 加载页面缓存
 	mindMapList.value = mindMapListStore.mindMapList;
 	let result = await isEnpiredOrInvaid();

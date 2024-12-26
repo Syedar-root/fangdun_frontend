@@ -81,7 +81,10 @@ export async function isEnpiredOrInvaid() {
                 return false;
             }
         } catch (e) {
-            console.log(e);
+			console.log(e);
+			if (e.code === 'ERR_NETWORK') {
+				return false;
+			}
             try {
                 const res = await refresh_token();
                 tokenStore.removeToken();

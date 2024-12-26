@@ -188,9 +188,9 @@ function initMap() {
 	})
 	//点击节点事件
 	mindMap.value.on('node_click', (node, e) => {
-		// if (!isNodeActive(node)) {
-		// 	hideMenu();
-		// }
+		if (isNodeActive(node)) {
+			showMenu()
+		}
 	})
 	//点击画布事件
 	mindMap.value.on('draw_click', () => {
@@ -249,8 +249,18 @@ async function handleToolBox(event, file) {
 	} else if (event === '1') {
 		console.log("导入");
 		console.log(file);
-		let data = await markdown.transformMarkdownTo(file)
-		mindMap.value.setData(data)
+		try {
+			let data = await markdown.transformMarkdownTo(file)
+			mindMap.value.setData(data)
+		} catch (e) {
+			console.log(e)
+			ElMessage({
+				message: '文件格式错误',
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
 	} else if (event === '2-1') {
 		console.log("导出为PNG");
 		exportFile('png');
@@ -285,9 +295,9 @@ async function exportFile(type) {
 	}).then((result) => {
 		console.log(`${type}保存成功，结果：`, result);
 		ElMessage({
-			message: result,
+			message: `已保存到：${result.filePath}`,
 			type: 'success',
-			duration: 2500,
+			duration: 5000,
 			offset: 45
 		})
 	}).catch((error) => {
@@ -540,17 +550,13 @@ function initHammer() {
 }
 
 const mainLoading = ref(false);
+let firstBackPressTime = 0;
 onMounted(() => {
 	document.addEventListener('deviceready', () => {
 		console.log('Cordova is ready');
-		// ElMessage({
-		// 	message: 'Cordova is ready',
-		// 	type: 'success',
-		// 	duration: 2500,
-		// 	offset: 45
-		// })
 		requestReadExternalStoragePermission(); /* 读取外部存储权限 */
 	}, false);
+
 	console.log(mindMapStore.mindMap)
 	try {
 		mapData.value = mindMapStore.mindMap.data.data.root;
@@ -564,6 +570,7 @@ onMounted(() => {
 	}
 	initMap();
 	initHammer();
+
 
 })
 </script>

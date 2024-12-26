@@ -200,7 +200,10 @@
 			&:active {
 				background-color: $itemColor3;
 				.itemIcon {
-					fill: #fff;
+					// fill: #fff;
+					path{
+						stroke: #fff;
+					}
 				}
 				span {
 					color: #fff;
