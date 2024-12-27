@@ -191,6 +191,8 @@ function initMap() {
 		if (isNodeActive(node)) {
 			showMenu()
 		}
+		// 关闭ai拓展学习
+		aiExtendedLearningShow.value = false;
 	})
 	//点击画布事件
 	mindMap.value.on('draw_click', () => {
@@ -200,6 +202,8 @@ function initMap() {
 		themeEditMenuShow.value = false;
 		// 关闭节点备注
 		hideNote();
+		// 关闭ai拓展学习
+		aiExtendedLearningShow.value = false;
 	})
 	// 监听前进回退事件
 	mindMap.value.on('back_forward', (index, len) => {
@@ -303,7 +307,7 @@ async function exportFile(type) {
 	}).catch((error) => {
 		console.error(`保存${type}出现错误：`, error);
 		ElMessage({
-			message: error,
+			message: `保存失败`,
 			type: 'error',
 			duration: 2500,
 			offset: 45
@@ -447,12 +451,21 @@ async function handleAiGenerateNode() {
 		console.log(e.response.data.error);
 		// 隐藏加载动画
 		mainLoading.value = false;
-		ElMessage({
-			message: e.response.data.error,
-			type: 'error',
-			duration: 2500,
-			offset: 45
-		})
+		if (e.code === 'ERR_NETWORK') {
+			ElMessage({
+				message: '网络错误',
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		} else {
+			ElMessage({
+				message: e.response.data.error,
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
 	})
 }
 // AI生成节点插入

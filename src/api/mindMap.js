@@ -30,6 +30,17 @@ export function getMindMap(title) {
 	})
 }
 
+export function getMindMapById(id) {
+	return axios.get(urlStore.url + '/mindmap/select/'+ id +'/', {
+		params: {
+			id: id,
+		},
+		headers: {
+			Authorization: 'Bearer '+ tokenStore.token
+		}
+	})
+}
+
 export function updateMindMap(data, title, id, picUrl) {
 	return axios.put(urlStore.url + '/mindmap/update/' + id + '/', {
 		data: {

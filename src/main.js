@@ -35,7 +35,7 @@ let firstBackPressTime = 0;
 document.addEventListener("backbutton", function (e) {
   e.preventDefault();
   let currentPath = router.currentRoute.value.path;
-  if (currentPath === '/' || currentPath === '/login') {
+  if (currentPath === '/' || currentPath === '/login'||currentPath === '/indexPage') {
     // 如果当前路径是首页，执行退出应用的逻辑
     if (firstBackPressTime === 0) {
       firstBackPressTime = new Date().getTime();

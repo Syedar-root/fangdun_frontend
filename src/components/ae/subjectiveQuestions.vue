@@ -21,11 +21,20 @@ onMounted(() => {
         questions.value = res.data.questions_and_answers;
         loading.value = false;
     }).catch(err => {
-        ElMessage({
-            message: '生成失败',
-            type: 'error',
-            duration: 3000
-        })
+        console.log(err);
+        if (err.code === 'ERR_NETWORK') {
+            ElMessage({
+                message: '网络错误',
+                type: 'error',
+                duration: 3000
+            })
+        } else {
+            ElMessage({
+                message: err.response.data.error,
+                type: 'error',
+                duration: 3000
+            })
+        }
         loading.value = false;
     })
 })

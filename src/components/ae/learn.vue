@@ -12,7 +12,7 @@ const props = defineProps({
         type: Array,
     }
 })
-const emits = defineEmits(['addToNodeRemark']);
+const emits = defineEmits(['addToNodeRemark', 'learnText']);
 
 const queryText = ref('');
 const learnText = computed(() => {
@@ -51,11 +51,27 @@ onMounted(async () => {
             const str = textDecoder.decode(value);
             console.log(str);
             queryText.value += str;
+            emits('learnText', queryText.value);
         }
         addBttnShow.value = true;
     } catch (error) {
         console.error('处理响应出现错误：', error);
-        addBttnShow.value = true;
+        if (error.code === 'ERR_NETWORK') {
+            ElMessage({
+                message: '网络错误',
+                type: 'error',
+                duration: 2500,
+                offset: 45
+            })
+        } else {
+            ElMessage({
+                message: error.response.data.error,
+                type: 'error',
+                duration: 2500,
+                offset: 45
+            })
+        }
+        addBttnShow.value = false;
         loading.value = false;
     }
 })

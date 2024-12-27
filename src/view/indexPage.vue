@@ -1,5 +1,6 @@
 <template>
-	<div class="wrap" ref="wrap">
+	<div class="wrap" ref="wrap" v-loading="wrap_loading" element-loading-text="加载中，请稍后..."
+		element-loading-background="rgba(255, 255, 255, 0.8)">
 		<!-- 顶栏 -->
 		<div class="header">
 			<div class="left" @click="goToUserCenter">
@@ -60,7 +61,7 @@
 
 		<Transition name="fade">
 			<div class="mask" v-show="addNewMindMapFormVisiable" @click="addNewMindMapFormVisiable = false"
-				v-loading="loading" element-loading-text="创建中..." element-loading-background="rgba(122, 122, 122, 0.8)">
+				v-loading="loading" element-loading-text="创建中..." element-loading-background="rgba(255, 255, 255, 0.8)">
 				<Transition name="optMenuShow">
 					<div class="addMapForm" v-if="addNewMindMapFormVisiable" @click.stop>
 						<h2>新建导图</h2>
@@ -96,7 +97,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getMindMap, createMindMap, updateMindMap, deleteMindMap } from '../api/mindMap';
+import { getMindMap, createMindMap, updateMindMap, deleteMindMap, getMindMapById } from '../api/mindMap';
 import { ElMessage } from 'element-plus';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { useMindMapStore } from '../store/mindMap';
@@ -270,12 +271,40 @@ async function delMindMap() {
 	})
 }
 //点击进入
-function toMindMap(data) {
+async function toMindMap(data) {
 	console.log(data);
-	mindMapStore.removeMindMap();
-	mindMapStore.setMindMap(data)
-	console.log(mindMapStore.mindMap)
-	router.push('/mindMap')
+	await getMindMapById(data.id).then((res) => {
+		mindMapStore.removeMindMap();
+		mindMapStore.setMindMap(res.data)
+		console.log(mindMapStore.mindMap)
+		router.push('/mindMap')
+	}).catch((e) => {
+		console.log(e);
+		if (e.status === 404) {
+			ElMessage({
+				message: '该导图不存在,请检查网络状况',
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
+		else if (e.status === 403) {
+			ElMessage({
+				message: '权限不足',
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
+		else {
+			ElMessage({
+				message: e.message,
+				type: 'error',
+				duration: 2500,
+				offset: 45
+			})
+		}
+	});
 }
 
 // 跳转用户中心
@@ -284,11 +313,11 @@ function goToUserCenter() {
 }
 
 const tokenStore = useTokenStore();
-
+const wrap_loading = ref(false);
 onMounted(async () => {
-
 	// 加载页面缓存
 	mindMapList.value = mindMapListStore.mindMapList;
+	wrap_loading.value = true;
 	let result = await isEnpiredOrInvaid();
 	if (result) {
 		if (tokenStore.token !== '') {
@@ -299,9 +328,12 @@ onMounted(async () => {
 				offset: 45
 			})
 		}
+		wrap_loading.value = false;
 		router.push('/login')
 	} else if (result === false) {
-		await initIndexPage()
+		await initIndexPage().then(() => {
+			wrap_loading.value = false;
+		})
 	}
 	console.log(mindMapList)
 	document.addEventListener('deviceready', () => {
@@ -311,7 +343,6 @@ onMounted(async () => {
 		} else {
 			window.screen.orientation.lock('landscape');
 		}
-
 	}, false);
 })
 </script>

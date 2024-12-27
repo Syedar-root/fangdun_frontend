@@ -83,6 +83,12 @@ export async function isEnpiredOrInvaid() {
         } catch (e) {
 			console.log(e);
 			if (e.code === 'ERR_NETWORK') {
+				ElMessage({
+					message: '网络错误',
+					type: 'error',
+					duration: 2500,
+					offset: 45
+				})
 				return false;
 			}
             try {
